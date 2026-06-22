@@ -35,6 +35,37 @@ body.drawer-open {
   overflow: hidden;
 }
 
+.section-transition {
+  position: fixed;
+  inset: 0;
+  z-index: 120;
+  pointer-events: none;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 50% 48%, rgba(201, 169, 110, 0.16), transparent 32%),
+    rgba(13, 13, 13, 0.18);
+  opacity: 0;
+  backdrop-filter: blur(0);
+}
+
+.section-transition span {
+  width: min(72vw, 780px);
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  transform: scaleX(0);
+  transform-origin: center;
+}
+
+.section-transition.active {
+  animation: sectionVeil 880ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.section-transition.active span {
+  animation: sectionSweep 880ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
 img {
   display: block;
   width: 100%;
@@ -459,7 +490,25 @@ h3 {
 }
 
 section {
+  position: relative;
   padding: clamp(80px, 10vw, 150px) clamp(18px, 5vw, 76px);
+}
+
+section.section-arrived::after {
+  position: absolute;
+  inset: clamp(16px, 2.6vw, 34px);
+  z-index: 1;
+  pointer-events: none;
+  content: "";
+  border: 1px solid rgba(201, 169, 110, 0.34);
+  opacity: 0;
+  animation: arrivalFrame 1050ms ease;
+}
+
+.hero.section-arrived::after,
+.final-cta.section-arrived::after,
+.bridal.section-arrived::after {
+  border-color: rgba(247, 243, 238, 0.24);
 }
 
 .section-band {
@@ -852,6 +901,56 @@ details p {
   }
 }
 
+@keyframes sectionVeil {
+  0% {
+    opacity: 0;
+    backdrop-filter: blur(0);
+  }
+
+  28% {
+    opacity: 1;
+    backdrop-filter: blur(8px);
+  }
+
+  100% {
+    opacity: 0;
+    backdrop-filter: blur(0);
+  }
+}
+
+@keyframes sectionSweep {
+  0% {
+    opacity: 0;
+    transform: scaleX(0);
+  }
+
+  34% {
+    opacity: 1;
+    transform: scaleX(1);
+  }
+
+  100% {
+    opacity: 0;
+    transform: scaleX(0.18);
+  }
+}
+
+@keyframes arrivalFrame {
+  0% {
+    opacity: 0;
+    transform: scale(0.985);
+  }
+
+  24% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+    transform: scale(1.015);
+  }
+}
+
 @media (max-width: 1000px) {
   .primary-nav {
     display: none;
@@ -974,5 +1073,10 @@ details p {
     animation-duration: 0.001ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.001ms !important;
+  }
+
+  .section-transition,
+  section.section-arrived::after {
+    display: none;
   }
 }

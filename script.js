@@ -7,6 +7,9 @@ const menuClose = document.querySelector("[data-menu-close]");
 const mobileDrawer = document.querySelector("[data-mobile-drawer]");
 const drawerBackdrop = document.querySelector("[data-drawer-backdrop]");
 const drawerLinks = document.querySelectorAll("[data-drawer-link]");
+const sectionTransition = document.querySelector("[data-section-transition]");
+const sectionLinks = document.querySelectorAll('a[href^="#"]:not(.skip-link)');
+const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
 
 const setHeaderState = () => {
   header.classList.toggle("scrolled", window.scrollY > 20);
@@ -40,6 +43,61 @@ window.addEventListener("keydown", (event) => {
     setDrawerState(false);
   }
 });
+
+const activateTransition = () => {
+  if (!sectionTransition || reduceMotion.matches) {
+    return;
+  }
+
+  sectionTransition.classList.remove("active");
+  void sectionTransition.offsetWidth;
+  sectionTransition.classList.add("active");
+};
+
+const markArrived = (target) => {
+  if (reduceMotion.matches || !(target instanceof HTMLElement)) {
+    return;
+  }
+
+  target.classList.remove("section-arrived");
+  void target.offsetWidth;
+  target.classList.add("section-arrived");
+  window.setTimeout(() => target.classList.remove("section-arrived"), 1150);
+};
+
+const scrollToSection = (event) => {
+  const link = event.currentTarget;
+  const hash = link.getAttribute("href");
+
+  if (!hash || hash === "#") {
+    return;
+  }
+
+  const target = document.querySelector(hash);
+
+  if (!target) {
+    return;
+  }
+
+  event.preventDefault();
+  setDrawerState(false);
+  activateTransition();
+
+  const headerHeight = header?.offsetHeight || 0;
+  const top = target.getBoundingClientRect().top + window.scrollY - headerHeight + 1;
+
+  window.scrollTo({
+    top: Math.max(0, top),
+    behavior: reduceMotion.matches ? "auto" : "smooth",
+  });
+
+  window.setTimeout(() => {
+    history.pushState(null, "", hash);
+    markArrived(target);
+  }, reduceMotion.matches ? 0 : 520);
+};
+
+sectionLinks.forEach((link) => link.addEventListener("click", scrollToSection));
 
 const revealObserver = new IntersectionObserver(
   (entries) => {
