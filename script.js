@@ -94,7 +94,7 @@ const scrollToSection = (event) => {
   window.setTimeout(() => {
     history.pushState(null, "", hash);
     markArrived(target);
-  }, reduceMotion.matches ? 0 : 520);
+  }, reduceMotion.matches ? 0 : 620);
 };
 
 sectionLinks.forEach((link) => link.addEventListener("click", scrollToSection));
