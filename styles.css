@@ -777,7 +777,7 @@ details p {
   content: "";
   background:
     linear-gradient(rgba(13, 13, 13, 0.72), rgba(13, 13, 13, 0.86)),
-    url("https://images.unsplash.com/photo-1568782517100-09bf22d88c2d?auto=format&fit=crop&w=1800&q=85") center/cover;
+    url("./assets/glam-event.jpg") center/cover;
   transform: scale(1.02);
 }
 
