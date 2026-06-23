@@ -9,6 +9,8 @@ const drawerBackdrop = document.querySelector("[data-drawer-backdrop]");
 const drawerLinks = document.querySelectorAll("[data-drawer-link]");
 const sectionTransition = document.querySelector("[data-section-transition]");
 const sectionLinks = document.querySelectorAll('a[href^="#"]:not(.skip-link)');
+const magneticItems = document.querySelectorAll(".button, .nav-cta, .drawer-cta, .filter-button");
+const depthItems = document.querySelectorAll(".service-card, .class-card, .gallery-item");
 const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
 
 const setHeaderState = () => {
@@ -112,6 +114,40 @@ const revealObserver = new IntersectionObserver(
 );
 
 revealItems.forEach((item) => revealObserver.observe(item));
+
+if (!reduceMotion.matches && window.matchMedia("(pointer: fine)").matches) {
+  magneticItems.forEach((item) => {
+    item.addEventListener("pointermove", (event) => {
+      const rect = item.getBoundingClientRect();
+      const x = ((event.clientX - rect.left) / rect.width - 0.5) * 10;
+      const y = ((event.clientY - rect.top) / rect.height - 0.5) * 8;
+
+      item.style.setProperty("--magnet-x", `${x}px`);
+      item.style.setProperty("--magnet-y", `${y}px`);
+    });
+
+    item.addEventListener("pointerleave", () => {
+      item.style.setProperty("--magnet-x", "0px");
+      item.style.setProperty("--magnet-y", "0px");
+    });
+  });
+
+  depthItems.forEach((item) => {
+    item.addEventListener("pointermove", (event) => {
+      const rect = item.getBoundingClientRect();
+      const x = (event.clientX - rect.left) / rect.width - 0.5;
+      const y = (event.clientY - rect.top) / rect.height - 0.5;
+
+      item.style.setProperty("--tilt-x", `${-y * 3.5}deg`);
+      item.style.setProperty("--tilt-y", `${x * 4.5}deg`);
+    });
+
+    item.addEventListener("pointerleave", () => {
+      item.style.setProperty("--tilt-x", "0deg");
+      item.style.setProperty("--tilt-y", "0deg");
+    });
+  });
+}
 
 filterButtons.forEach((button) => {
   button.addEventListener("click", () => {

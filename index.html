@@ -14,6 +14,7 @@
       content="Luxury bridal, event, soft glam, and editorial beauty experiences crafted for Dubai clients with warmth, precision, and elegance."
     />
     <meta property="og:type" content="website" />
+    <link rel="preconnect" href="https://unpkg.com" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -90,6 +91,7 @@
           />
         </picture>
         <div class="hero-overlay"></div>
+        <div class="hero-particles" aria-hidden="true"></div>
         <div class="hero-content reveal">
           <p class="eyebrow">Dubai luxury beauty artistry</p>
           <h1>Luxury Makeup for Life's Most Beautiful Moments</h1>
@@ -127,6 +129,28 @@
               From bridal mornings to gala evenings and editorial shoots, the
               result is radiant, camera-ready, and unmistakably elegant.
             </p>
+          </div>
+        </div>
+      </section>
+
+      <section class="luxury-3d section-band" id="luxury-3d" aria-label="Luxury beauty composition">
+        <div class="luxury-3d-copy reveal">
+          <p class="eyebrow">Luxury beauty atmosphere</p>
+          <h2>Beauty in Motion, Crafted in Detail</h2>
+          <p>
+            A quiet editorial moment inspired by studio-lit luxury beauty campaigns:
+            champagne reflections, black marble, soft powder, and the refined finish
+            clients expect before every appointment.
+          </p>
+        </div>
+        <div class="luxury-3d-stage reveal" data-luxury-3d>
+          <canvas class="luxury-3d-canvas" data-luxury-3d-canvas aria-hidden="true"></canvas>
+          <div class="luxury-3d-fallback" aria-hidden="true">
+            <span class="fallback-ring"></span>
+            <span class="fallback-platform"></span>
+            <span class="fallback-compact"></span>
+            <span class="fallback-brush"></span>
+            <span class="fallback-dust"></span>
           </div>
         </div>
       </section>
@@ -398,6 +422,7 @@
         "areaServed": "Dubai"
       }
     </script>
+    <script type="module" src="./luxury-3d.js"></script>
     <script src="./script.js"></script>
   </body>
 </html>
