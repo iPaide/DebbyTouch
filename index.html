@@ -281,32 +281,42 @@
           <button class="filter-button" type="button" data-filter="editorial">Editorial</button>
         </div>
         <div class="gallery">
-          <figure class="gallery-item tall reveal" data-category="bridal">
+          <figure class="gallery-item tall reveal" data-category="bridal" tabindex="0" role="button" aria-label="Open Bridal portfolio image">
             <img src="./assets/glam-bridal.jpg" alt="Bridal makeup with a refined glow" />
             <figcaption>Bridal</figcaption>
           </figure>
-          <figure class="gallery-item reveal" data-category="soft-glam">
+          <figure class="gallery-item reveal" data-category="soft-glam" tabindex="0" role="button" aria-label="Open Soft Glam portfolio image">
             <img src="./assets/glam-soft.jpg" alt="Soft glam beauty portrait" />
             <figcaption>Soft Glam</figcaption>
           </figure>
-          <figure class="gallery-item reveal" data-category="events">
+          <figure class="gallery-item reveal" data-category="events" tabindex="0" role="button" aria-label="Open Events portfolio image">
             <img src="./assets/glam-event.jpg" alt="Elegant event beauty look" />
             <figcaption>Events</figcaption>
           </figure>
-          <figure class="gallery-item reveal" data-category="melanin">
+          <figure class="gallery-item reveal" data-category="melanin" tabindex="0" role="button" aria-label="Open Melanin Glam portfolio image">
             <img src="./assets/glam-hero.jpg" alt="Luxury makeup portrait highlighting radiant complexion" />
             <figcaption>Melanin Glam</figcaption>
           </figure>
-          <figure class="gallery-item wide reveal" data-category="editorial">
+          <figure class="gallery-item wide reveal" data-category="editorial" tabindex="0" role="button" aria-label="Open Editorial portfolio image">
             <img src="./assets/glam-luxe.jpg" alt="Editorial makeup campaign portrait" />
             <figcaption>Editorial</figcaption>
           </figure>
-          <figure class="gallery-item reveal" data-category="bridal">
+          <figure class="gallery-item reveal" data-category="bridal" tabindex="0" role="button" aria-label="Open Bridal Details portfolio image">
             <img src="./assets/glam-bridal.jpg" alt="Refined bridal beauty detail" />
             <figcaption>Bridal Details</figcaption>
           </figure>
         </div>
       </section>
+
+      <div class="lightbox" role="dialog" aria-modal="true" aria-label="Portfolio image viewer" aria-hidden="true" data-lightbox>
+        <button class="lightbox-close" type="button" aria-label="Close image viewer" data-lightbox-close>×</button>
+        <button class="lightbox-nav lightbox-prev" type="button" aria-label="Previous image" data-lightbox-prev>‹</button>
+        <div class="lightbox-frame">
+          <img src="./assets/glam-bridal.jpg" alt="" data-lightbox-image />
+          <p data-lightbox-caption></p>
+        </div>
+        <button class="lightbox-nav lightbox-next" type="button" aria-label="Next image" data-lightbox-next>›</button>
+      </div>
 
       <section class="why section-band">
         <div class="section-heading reveal">
@@ -423,6 +433,8 @@
       }
     </script>
     <script type="module" src="./luxury-3d.js"></script>
+    <script src="./gsap.min.js"></script>
+    <script src="./ScrollTrigger.min.js"></script>
     <script src="./script.js"></script>
   </body>
 </html>

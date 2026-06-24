@@ -192,6 +192,8 @@ if (stage && canvas) {
   let height = 0;
   let isVisible = false;
   let frameId = 0;
+  const pointer = { x: 0, y: 0 };
+  const pointerTarget = { x: 0, y: 0 };
 
   const resize = () => {
     const rect = stage.getBoundingClientRect();
@@ -204,13 +206,17 @@ if (stage && canvas) {
 
   const render = (time = 0) => {
     const seconds = time * 0.001;
+    pointer.x += (pointerTarget.x - pointer.x) * 0.045;
+    pointer.y += (pointerTarget.y - pointer.y) * 0.045;
 
-    composition.rotation.y = Math.sin(seconds * 0.32) * 0.14 + seconds * 0.035;
-    composition.position.y = Math.sin(seconds * 0.8) * 0.045;
+    composition.rotation.x = pointer.y * 0.08;
+    composition.rotation.y = Math.sin(seconds * 0.32) * 0.14 + seconds * 0.035 + pointer.x * 0.16;
+    composition.position.y = Math.sin(seconds * 0.8) * 0.045 - pointer.y * 0.04;
     brush.rotation.y = Math.sin(seconds * 0.72) * 0.08 - 0.08;
     accentRing.rotation.z = seconds * 0.12;
     particles.rotation.y = -seconds * 0.025;
-    camera.position.x = Math.sin(seconds * 0.18) * 0.18;
+    camera.position.x = Math.sin(seconds * 0.18) * 0.18 + pointer.x * 0.18;
+    camera.position.y = 1.2 + pointer.y * 0.12;
     camera.lookAt(0, -0.18, 0);
 
     renderer.render(scene, camera);
@@ -235,6 +241,19 @@ if (stage && canvas) {
     resize();
     render();
   }).observe(stage);
+
+  if (!reduceMotion.matches && window.matchMedia("(pointer: fine)").matches) {
+    stage.addEventListener("pointermove", (event) => {
+      const rect = stage.getBoundingClientRect();
+      pointerTarget.x = ((event.clientX - rect.left) / rect.width - 0.5) * 2;
+      pointerTarget.y = ((event.clientY - rect.top) / rect.height - 0.5) * 2;
+    });
+
+    stage.addEventListener("pointerleave", () => {
+      pointerTarget.x = 0;
+      pointerTarget.y = 0;
+    });
+  }
 
   new IntersectionObserver(
     (entries) => {
