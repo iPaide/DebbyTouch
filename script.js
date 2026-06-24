@@ -1,3 +1,6 @@
+import "./gsap.min.js";
+import "./ScrollTrigger.min.js";
+
 const header = document.querySelector("[data-header]");
 const hero = document.querySelector(".hero");
 const revealItems = document.querySelectorAll(".reveal");
