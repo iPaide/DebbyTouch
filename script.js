@@ -1,5 +1,5 @@
-import "./gsap.min.js";
-import "./ScrollTrigger.min.js";
+import "./gsap.min.js?v=module-safe";
+import "./ScrollTrigger.min.js?v=module-safe";
 
 const header = document.querySelector("[data-header]");
 const hero = document.querySelector(".hero");
