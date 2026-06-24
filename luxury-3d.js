@@ -60,6 +60,43 @@ if (stage && canvas) {
     metalness: 0.02,
   });
 
+  const glassBottle = new THREE.MeshPhysicalMaterial({
+    color: 0xf4dfc8,
+    roughness: 0.08,
+    metalness: 0.06,
+    transmission: 0.28,
+    transparent: true,
+    opacity: 0.52,
+    clearcoat: 1,
+    clearcoatRoughness: 0.06,
+  });
+
+  const foundationCream = new THREE.MeshStandardMaterial({
+    color: 0xd49a73,
+    roughness: 0.48,
+    metalness: 0.02,
+  });
+
+  const labelCanvas = document.createElement("canvas");
+  labelCanvas.width = 512;
+  labelCanvas.height = 384;
+  const labelContext = labelCanvas.getContext("2d");
+  labelContext.fillStyle = "rgba(244, 233, 218, 0.86)";
+  labelContext.fillRect(0, 0, labelCanvas.width, labelCanvas.height);
+  labelContext.strokeStyle = "rgba(34, 25, 19, 0.42)";
+  labelContext.lineWidth = 10;
+  labelContext.strokeRect(18, 18, labelCanvas.width - 36, labelCanvas.height - 36);
+  labelContext.fillStyle = "#1b1815";
+  labelContext.textAlign = "center";
+  labelContext.font = "700 62px Georgia, serif";
+  labelContext.fillText("DEBBY", 256, 140);
+  labelContext.fillText("TOUCH", 256, 205);
+  labelContext.font = "500 24px Arial, sans-serif";
+  labelContext.letterSpacing = "4px";
+  labelContext.fillText("LUXURY BEAUTY", 256, 286);
+  const bottleLabel = new THREE.CanvasTexture(labelCanvas);
+  bottleLabel.colorSpace = THREE.SRGBColorSpace;
+
   const platform = new THREE.Mesh(new THREE.CylinderGeometry(2.25, 2.35, 0.22, 96), blackMarble);
   platform.position.y = -0.96;
   composition.add(platform);
@@ -69,9 +106,59 @@ if (stage && canvas) {
   platformRing.rotation.x = Math.PI / 2;
   composition.add(platformRing);
 
+  const bottle = new THREE.Group();
+  bottle.position.set(0, -0.13, 0.06);
+  composition.add(bottle);
+
+  const bottleLiquid = new THREE.Mesh(new THREE.CylinderGeometry(0.39, 0.43, 1.22, 72), foundationCream);
+  bottleLiquid.position.y = -0.06;
+  bottle.add(bottleLiquid);
+
+  const bottleGlass = new THREE.Mesh(new THREE.CylinderGeometry(0.43, 0.49, 1.34, 72), glassBottle);
+  bottleGlass.position.y = -0.08;
+  bottle.add(bottleGlass);
+
+  const bottleBase = new THREE.Mesh(new THREE.CylinderGeometry(0.43, 0.49, 0.08, 72), new THREE.MeshPhysicalMaterial({
+    color: 0xf7eee4,
+    roughness: 0.08,
+    metalness: 0.16,
+    transparent: true,
+    opacity: 0.64,
+  }));
+  bottleBase.position.y = -0.74;
+  bottle.add(bottleBase);
+
+  const bottleShoulder = new THREE.Mesh(new THREE.CylinderGeometry(0.32, 0.38, 0.16, 64), champagneGold);
+  bottleShoulder.position.y = 0.68;
+  bottle.add(bottleShoulder);
+
+  const cap = new THREE.Mesh(new THREE.CylinderGeometry(0.34, 0.34, 0.62, 72), champagneGold);
+  cap.position.y = 1.05;
+  bottle.add(cap);
+
+  const capTop = new THREE.Mesh(new THREE.CylinderGeometry(0.35, 0.35, 0.045, 72), new THREE.MeshBasicMaterial({
+    color: 0xffe5b7,
+    transparent: true,
+    opacity: 0.42,
+  }));
+  capTop.position.y = 1.38;
+  bottle.add(capTop);
+
+  const label = new THREE.Mesh(
+    new THREE.PlaneGeometry(0.56, 0.42),
+    new THREE.MeshBasicMaterial({
+      map: bottleLabel,
+      transparent: true,
+      opacity: 0.92,
+    })
+  );
+  label.position.set(0, -0.17, 0.49);
+  bottle.add(label);
+
   const compact = new THREE.Group();
-  compact.position.set(0.38, -0.34, 0.1);
-  compact.rotation.set(0.04, -0.36, -0.03);
+  compact.position.set(1.12, -0.5, -0.28);
+  compact.rotation.set(0.04, -0.55, -0.03);
+  compact.scale.setScalar(0.68);
   composition.add(compact);
 
   const compactBase = new THREE.Mesh(new THREE.CylinderGeometry(0.78, 0.86, 0.18, 96), champagneGold);
@@ -102,8 +189,8 @@ if (stage && canvas) {
   compact.add(lidMirror);
 
   const brush = new THREE.Group();
-  brush.position.set(-1.04, -0.42, -0.28);
-  brush.rotation.set(0.34, 0.46, -0.52);
+  brush.position.set(-1.2, -0.56, 0.3);
+  brush.rotation.set(0.22, 0.3, -0.48);
   composition.add(brush);
 
   const handle = new THREE.Mesh(new THREE.CylinderGeometry(0.075, 0.095, 2.18, 32), champagneGold);
@@ -123,8 +210,9 @@ if (stage && canvas) {
   brush.add(bristles);
 
   const lipstick = new THREE.Group();
-  lipstick.position.set(1.46, -0.48, 0.3);
-  lipstick.rotation.set(0.1, 0.22, -0.12);
+  lipstick.position.set(1.62, -0.5, 0.42);
+  lipstick.rotation.set(0.06, 0.18, -0.1);
+  lipstick.scale.setScalar(0.86);
   composition.add(lipstick);
 
   const lipstickCase = new THREE.Mesh(new THREE.CylinderGeometry(0.22, 0.25, 0.92, 48), champagneGold);
@@ -139,14 +227,23 @@ if (stage && canvas) {
   lipstickBullet.position.y = 0.66;
   lipstick.add(lipstickBullet);
 
-  const accentRing = new THREE.Mesh(new THREE.TorusGeometry(1.76, 0.012, 8, 128), new THREE.MeshBasicMaterial({
+  const accentRing = new THREE.Mesh(new THREE.TorusGeometry(1.95, 0.015, 8, 160), new THREE.MeshBasicMaterial({
     color: 0xd8b36f,
     transparent: true,
-    opacity: 0.68,
+    opacity: 0.78,
   }));
   accentRing.position.y = -0.76;
   accentRing.rotation.x = Math.PI / 2;
   composition.add(accentRing);
+
+  const bottleHalo = new THREE.Mesh(new THREE.TorusGeometry(1.15, 0.008, 8, 128), new THREE.MeshBasicMaterial({
+    color: 0xd8b36f,
+    transparent: true,
+    opacity: 0.42,
+  }));
+  bottleHalo.position.set(0, 0.12, -0.04);
+  bottleHalo.rotation.x = Math.PI / 2;
+  composition.add(bottleHalo);
 
   const particleCount = 180;
   const particlePositions = new Float32Array(particleCount * 3);
@@ -212,8 +309,12 @@ if (stage && canvas) {
     composition.rotation.x = pointer.y * 0.08;
     composition.rotation.y = Math.sin(seconds * 0.32) * 0.14 + seconds * 0.035 + pointer.x * 0.16;
     composition.position.y = Math.sin(seconds * 0.8) * 0.045 - pointer.y * 0.04;
+    bottle.rotation.y = Math.sin(seconds * 0.42) * 0.08 - pointer.x * 0.04;
+    bottle.position.y = -0.13 + Math.sin(seconds * 0.72) * 0.025;
     brush.rotation.y = Math.sin(seconds * 0.72) * 0.08 - 0.08;
     accentRing.rotation.z = seconds * 0.12;
+    bottleHalo.rotation.z = -seconds * 0.08;
+    bottleHalo.position.y = 0.12 + Math.sin(seconds * 0.5) * 0.03;
     particles.rotation.y = -seconds * 0.025;
     camera.position.x = Math.sin(seconds * 0.18) * 0.18 + pointer.x * 0.18;
     camera.position.y = 1.2 + pointer.y * 0.12;
