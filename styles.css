@@ -748,13 +748,18 @@ section.section-arrived::after {
 }
 
 .class-feature {
+  position: relative;
   display: grid;
   grid-template-columns: minmax(300px, 0.88fr) minmax(320px, 1fr);
   align-items: center;
   gap: clamp(34px, 7vw, 96px);
+  isolation: isolate;
+  overflow: hidden;
 }
 
 .class-copy {
+  position: relative;
+  z-index: 1;
   max-width: 720px;
 }
 
@@ -769,6 +774,8 @@ section.section-arrived::after {
 }
 
 .class-panel {
+  position: relative;
+  z-index: 1;
   display: grid;
   gap: 12px;
   padding: clamp(16px, 2vw, 28px);
@@ -777,6 +784,59 @@ section.section-arrived::after {
     linear-gradient(145deg, rgba(13, 13, 13, 0.94), rgba(27, 24, 21, 0.88)),
     var(--black);
   box-shadow: var(--shadow);
+}
+
+.class-motion {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at 72% 42%, rgba(201, 169, 110, 0.2), transparent 30%),
+    linear-gradient(90deg, transparent 0 40%, rgba(247, 243, 238, 0.54));
+  opacity: 0.56;
+}
+
+.class-motion::after {
+  position: absolute;
+  inset: 0;
+  content: "";
+  background:
+    linear-gradient(90deg, var(--ivory) 0 22%, rgba(247, 243, 238, 0.72) 42%, rgba(247, 243, 238, 0.34) 62%, transparent 78%),
+    linear-gradient(180deg, rgba(247, 243, 238, 0.58), transparent 42%, rgba(247, 243, 238, 0.6));
+}
+
+.class-motion::before {
+  position: absolute;
+  inset: 0;
+  content: "";
+  background: url("./assets/gold-powder-poster.png") 82% center / min(68vw, 900px) auto no-repeat;
+  filter: saturate(1.08) contrast(1.02);
+  mix-blend-mode: multiply;
+  opacity: 0;
+  transform: scale(1.03) translateX(0);
+}
+
+.class-motion.video-fallback::before {
+  opacity: 1;
+  animation: powderPosterDrift 12s ease-in-out infinite alternate;
+}
+
+.class-motion.video-fallback .class-motion-video {
+  display: none;
+}
+
+.class-motion-video {
+  position: absolute;
+  top: 50%;
+  right: -9%;
+  width: min(68vw, 900px);
+  height: 118%;
+  object-fit: cover;
+  filter: saturate(1.08) contrast(1.05);
+  mix-blend-mode: multiply;
+  transform: translateY(-50%);
+  mask-image: linear-gradient(90deg, transparent 0%, #000 28%, #000 78%, transparent 100%);
 }
 
 .class-card {
@@ -1294,6 +1354,16 @@ details p {
   }
 }
 
+@keyframes powderPosterDrift {
+  from {
+    transform: scale(1.03) translateX(0);
+  }
+
+  to {
+    transform: scale(1.08) translateX(-18px);
+  }
+}
+
 @keyframes champagneOrbit {
   from {
     opacity: 0.46;
@@ -1626,6 +1696,20 @@ details p {
 
   .section-transition,
   section.section-arrived::after {
+    display: none;
+  }
+
+  .class-motion {
+    background:
+      linear-gradient(90deg, var(--ivory) 0 34%, rgba(247, 243, 238, 0.72) 60%, rgba(201, 169, 110, 0.16)),
+      url("./assets/gold-powder-poster.png") right center / min(72vw, 840px) auto no-repeat;
+  }
+
+  .class-motion::before {
+    display: none;
+  }
+
+  .class-motion-video {
     display: none;
   }
 }

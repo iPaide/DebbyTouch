@@ -16,6 +16,7 @@ const sectionTransition = document.querySelector("[data-section-transition]");
 const sectionLinks = document.querySelectorAll('a[href^="#"]:not(.skip-link)');
 const magneticItems = document.querySelectorAll(".button, .nav-cta, .drawer-cta, .filter-button");
 const depthItems = document.querySelectorAll(".service-card, .class-card, .gallery-item");
+const luxuryVideos = document.querySelectorAll("[data-luxury-video]");
 const lightbox = document.querySelector("[data-lightbox]");
 const lightboxImage = document.querySelector("[data-lightbox-image]");
 const lightboxCaption = document.querySelector("[data-lightbox-caption]");
@@ -31,6 +32,29 @@ const setHeaderState = () => {
 
 setHeaderState();
 window.addEventListener("scroll", setHeaderState, { passive: true });
+
+luxuryVideos.forEach((video) => {
+  const motionLayer = video.closest(".class-motion");
+
+  if (reduceMotion.matches) {
+    video.pause();
+    return;
+  }
+
+  const showPosterFallback = () => {
+    if (video.readyState < 2) {
+      motionLayer?.classList.add("video-fallback");
+    }
+  };
+
+  const fallbackTimer = window.setTimeout(showPosterFallback, 1800);
+
+  video.addEventListener("canplay", () => window.clearTimeout(fallbackTimer), { once: true });
+  video.addEventListener("error", () => {
+    window.clearTimeout(fallbackTimer);
+    motionLayer?.classList.add("video-fallback");
+  }, { once: true });
+});
 
 const setDrawerState = (isOpen) => {
   menuToggle?.setAttribute("aria-expanded", String(isOpen));
