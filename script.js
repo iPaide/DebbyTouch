@@ -15,7 +15,7 @@ const drawerLinks = document.querySelectorAll("[data-drawer-link]");
 const sectionTransition = document.querySelector("[data-section-transition]");
 const sectionLinks = document.querySelectorAll('a[href^="#"]:not(.skip-link)');
 const magneticItems = document.querySelectorAll(".button, .nav-cta, .drawer-cta, .filter-button");
-const depthItems = document.querySelectorAll(".service-card, .class-card, .gallery-item");
+const depthItems = document.querySelectorAll(".service-card, .product-card, .class-card, .gallery-item");
 const luxuryVideos = document.querySelectorAll("[data-luxury-video]");
 const lightbox = document.querySelector("[data-lightbox]");
 const lightboxImage = document.querySelector("[data-lightbox-image]");

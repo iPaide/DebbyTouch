@@ -681,6 +681,7 @@ section.section-arrived::after {
 }
 
 .services,
+.products,
 .portfolio,
 .booking {
   background: var(--ivory);
@@ -745,6 +746,105 @@ section.section-arrived::after {
   font-weight: 800;
   letter-spacing: 0.14em;
   text-transform: uppercase;
+}
+
+.products {
+  overflow: hidden;
+}
+
+.product-showcase {
+  display: grid;
+  grid-template-columns: minmax(320px, 1.08fr) minmax(320px, 0.92fr);
+  align-items: center;
+  gap: clamp(34px, 6vw, 88px);
+  max-width: 1280px;
+  margin: 0 auto;
+}
+
+.product-visual {
+  position: relative;
+  overflow: hidden;
+  min-height: clamp(420px, 46vw, 620px);
+  border: 1px solid rgba(201, 169, 110, 0.24);
+  background:
+    radial-gradient(circle at 74% 22%, rgba(201, 169, 110, 0.24), transparent 32%),
+    linear-gradient(145deg, rgba(247, 243, 238, 0.96), rgba(225, 210, 190, 0.72));
+  box-shadow: var(--shadow);
+}
+
+.product-visual::after {
+  position: absolute;
+  inset: 0;
+  content: "";
+  pointer-events: none;
+  background: linear-gradient(120deg, rgba(255, 255, 255, 0.16), transparent 28%, rgba(201, 169, 110, 0.12) 72%, transparent);
+  mix-blend-mode: soft-light;
+}
+
+.product-visual img {
+  width: 100%;
+  height: 100%;
+  min-height: inherit;
+  display: block;
+  object-fit: cover;
+  transform: scale(1.02);
+}
+
+.product-copy {
+  max-width: 620px;
+}
+
+.product-copy > p:not(.eyebrow) {
+  color: rgba(27, 24, 21, 0.72);
+  font-size: clamp(17px, 1.4vw, 20px);
+}
+
+.product-list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  margin-top: 30px;
+}
+
+.product-card {
+  min-height: 190px;
+  padding: 24px;
+  display: grid;
+  align-content: start;
+  gap: 10px;
+  border: 1px solid rgba(27, 24, 21, 0.1);
+  background: rgba(255, 255, 255, 0.42);
+  transition: transform 260ms ease, border-color 260ms ease, box-shadow 260ms ease;
+}
+
+.product-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(201, 169, 110, 0.32);
+  box-shadow: 0 24px 56px rgba(27, 24, 21, 0.12);
+}
+
+.product-card span {
+  width: fit-content;
+  color: var(--gold);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.product-card h3 {
+  margin: 0;
+  font-size: clamp(26px, 2vw, 34px);
+}
+
+.product-card p {
+  margin: 0;
+  color: rgba(27, 24, 21, 0.66);
+  font-size: 14px;
+}
+
+.product-actions {
+  margin-top: 32px;
 }
 
 .class-feature {
@@ -1542,12 +1642,14 @@ details p {
   }
 
   .section-grid,
+  .product-showcase,
   .class-feature,
   .bridal {
     grid-template-columns: 1fr;
   }
 
   .portrait-frame,
+  .product-visual,
   .bridal-image {
     min-height: 480px;
   }
@@ -1557,6 +1659,7 @@ details p {
   }
 
   .service-grid,
+  .product-list,
   .benefit-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
@@ -1619,6 +1722,7 @@ details p {
   }
 
   .portrait-frame,
+  .product-visual,
   .bridal-image {
     min-height: 380px;
   }
@@ -1629,6 +1733,7 @@ details p {
   }
 
   .service-grid,
+  .product-list,
   .benefit-grid,
   .booking-steps,
   .gallery {
